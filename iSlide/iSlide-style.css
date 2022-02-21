@@ -1,0 +1,24 @@
+.iSlide-slider-background {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px; /* Set to optimal */
+}
+
+.iSlide-slider-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px; /* Set to optimal */
+}
+
+.islide-slider-divider {
+  border-radius: 10px; /* OK */
+  margin: 10px; /* OK */
+}
+
+.islide-slider-indicator {
+  padding: 10px; /* Set to optimal */
+  cursor: pointer;
+}

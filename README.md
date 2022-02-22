@@ -1,3 +1,3 @@
 # iSlideJS-library
- JavaScript sliding sidebar library
+ JavaScript sliding sidebar library \n
  Docs -> comming soon!

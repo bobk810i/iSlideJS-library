@@ -16,9 +16,11 @@
 .islide-slider-divider {
   border-radius: 10px; /* OK */
   margin: 10px; /* OK */
+  transition: 0.1s ease; /* OK */
 }
 
 .islide-slider-indicator {
   padding: 10px; /* Set to optimal */
   cursor: pointer;
+  transition: 0.1s ease; /* OK */
 }

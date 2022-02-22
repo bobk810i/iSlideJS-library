@@ -1,24 +1,33 @@
 const defaults = {
     indicator_radius: 20, //DONE
     bar_radius: 20, //DONE
-    position: 'left',
+    position: 'left', //DONE
     dividers: 'vertical', //DONE
     icons_size: 20, //DONE
     background_width: 'auto', //DONE
-    auto_hide: false,
+    auto_hide: false, // ====================================================
     z_index: 3, //DONE
-    aniamtion_speed: 0.2, //s
-    smooth_scrolling: true,
-    selection_range: [-70, 100], //px //ZMIENIĆ NA POPRAWNE
+    aniamtion_speed: 0.2, //s ===============================================
+    smooth_scrolling: 'auto', //DONE
+    scrolling_offset: 0, //DONE
+    selection_range: [-10, 400], //DONE
     //Colors
-    bar_color: '#cccccc', //DONE
-    background_color: '#ffffff', //DONE
+    bar_color: 'transparent', //DONE
+    background_color: 'transparent', //DONE
     icons_color: '#000000', //DONE
-    icons_active_color: '#039dfc',
-    indicators_color: '#ffffff', //DONE
-    indicators_active_color: '#039dfc', //DONE
+    icons_active_color: '#ffffff', //DONE
+    indicators_color: 'transparent', //DONE
+    indicators_active_color: '#000000', //DONE
     dividers_color: '#000000', //DONE
 }
+
+// TODO:
+// - hiding button (if there is a button (class or data attribute) then apply hiding (depending on the position))
+// - auto_hide (hide automaticly after scroll or clicking outside)
+// - animation_speed
+
+// SOON:
+// - Tooltips after hover
 
 const defaultDivider = [3, 20] //width, height
 
@@ -26,13 +35,103 @@ class iSlide {
     constructor(objectClass, options){
         this.objectClass = objectClass;
         this.options = options;
-        this.demo(); // function initialization
+        this.icons_sliders = []; // icons and stop objects matched together - global variable
+        this.#scrollOnRefresh();
     }
-    demo(){ // function inside class
-        document.addEventListener('scroll', (e)=>{
-            console.log('scrolled');
+
+    #findIcon(stopPoint){
+        let icon = null;
+        this.icons_sliders.forEach((matchPoint)=>{
+            if(matchPoint[0] == stopPoint){
+                icon = matchPoint[1];
+            }
+        })
+        return icon;
+    }
+
+    #matchIcons(stopPoints){
+        let list = [];
+        stopPoints.forEach((point)=>{
+            let nameAttribute = point.getAttribute('data-islide-name');
+            let icon = document.getElementById(nameAttribute);
+            list.push([point, icon]); // match point and icon
+        })
+        return list;
+    }
+
+    #getOffsetTop(element){ // returns top offset of the element
+        let offset_top = element.getBoundingClientRect().top;
+        return offset_top;
+    }
+
+    #scrollOnRefresh(){ // to move page and set current selection
+        window.scrollBy(0, 1);
+    }
+
+    #scrollEffect(){ // icons selecting when on the screen
+        let sliderStopList = [];
+        if(this.options.icons != undefined){ // check if icons are defined
+            Object.entries(this.options.icons).forEach((element)=>{ // List through icons to find their names and match them with data-islide-name attribute
+                let dataName = element[0];
+                let htmlObject = document.querySelector(`[data-islide-name = ${dataName}]`);
+                sliderStopList.push(htmlObject);
+            })
+            document.addEventListener('scroll', (e)=>{ // scroll event to highlight icons
+                sliderStopList.forEach((stopElement)=>{
+                    let offset = this.#getOffsetTop(stopElement);
+                    let icon = this.#findIcon(stopElement); // find an icon to the indicator
+                    if(this.options.selection_range != undefined){ // check for the options range
+                        
+                    }else{
+                        if(offset >= defaults.selection_range[0] && offset <= defaults.selection_range[1]){ // set highlight colors
+                            // Set icon and indicator active
+                            if(this.icons_active_color != undefined){ // check for the options icons_active_color
+                                icon.style.color = this.options.icons_active_color;
+                            }else{
+                                icon.style.color = defaults.icons_active_color;
+                            }
+
+                            if(this.options.indicators_active_color != undefined){ // check for the options indicators_active_color
+                                icon.style.backgroundColor = this.options.indicators_active_color;
+                            }else{
+                                icon.style.backgroundColor = defaults.indicators_active_color;
+                            }
+
+                        }else{
+                            if(this.options.indicators_color != undefined){ // check for the options icons_color
+                                icon.style.backgroundColor = this.options.indicators_color;
+                            }else{
+                                icon.style.backgroundColor = defaults.indicators_color;
+                            }
+
+                            if (this.options.icons_color != undefined){ /// check for the options indicators_color
+                                icon.style.color = this.options.icons_color;
+                            }else{
+                                icon.style.color = defaults.icons_color;
+                            }
+                        }
+                    }
+                })
+            })
+        }
+    }
+
+    #scrollOnCLick(){
+        this.icons_sliders.forEach((iconMatch)=>{
+            iconMatch[1].addEventListener('click', (e)=>{
+                let htmlWindowPosition = this.#getOffsetTop(document.querySelector('html')); // top offset of the html position
+                let elementOffset = (-htmlWindowPosition) + this.#getOffsetTop(iconMatch[0]);
+                if(this.options.scrolling_offset != undefined){ //check for the offset top option
+                    let scrollPosition = elementOffset - this.options.scrolling_offset;
+                    window.scrollTo(0, scrollPosition);
+                }else{
+                    let scrollPosition = elementOffset - defaults.scrolling_offset;
+                    window.scrollTo(0, scrollPosition);
+                }
+            })
         })
     }
+
     mount(){ // main initialization function
         if(this.options != undefined){ // Check if options exsist
             if(this.options.icons != undefined){ // Check if icons exsist (options, icons - two core elements)
@@ -44,7 +143,12 @@ class iSlide {
                 slider_bar.classList.add('iSlide-slider-bar'); // Add class
                 slider_background.appendChild(slider_bar); // Append to prevoius element
                 // Create icons and dividers
-                let slider_points = document.querySelectorAll('.iSlide'); // Select all elements with class "iSlide"
+                let slider_points = [];
+                Object.entries(this.options.icons).forEach((element)=>{ // List through stop points which have matching options icons names
+                    let dataName = element[0];
+                    let htmlObject = document.querySelector(`[data-islide-name = ${dataName}]`);
+                    slider_points.push(htmlObject);
+                })
                 slider_points.forEach((point)=>{
                     let point_name = point.getAttribute('data-islide-name');
                     let icon = this.options.icons[point_name];
@@ -52,18 +156,7 @@ class iSlide {
                     newIcon.classList.add('material-icons'); // Add class
                     newIcon.classList.add('islide-slider-indicator'); // Add class
                     newIcon.innerHTML = icon; // Set icon
-
-                    if(this.options.indicators_color != undefined){ // Adding background color from options
-                        newIcon.style.backgroundColor = this.options.indicators_color;
-                    }else{
-                        newIcon.style.backgroundColor = defaults.indicators_color;
-                    }
-
-                    if (this.options.icons_color != undefined){ // Adding icons color from options
-                        newIcon.style.color = this.options.icons_color;
-                    }else{
-                        newIcon.style.color = defaults.icons_color;
-                    }
+                    newIcon.id = point_name; // set id same as point name
 
                     slider_bar.appendChild(newIcon); // Append icons to slider bar
                     let divider = document.createElement('div'); // Create element
@@ -81,6 +174,9 @@ class iSlide {
                 // Add everything at the top of the objectClass from constructor
                 let menuMountObject = document.querySelector(this.objectClass);
                 menuMountObject.appendChild(slider_background);
+
+                // Set global variable - match icons with stopPoints
+                this.icons_sliders = this.#matchIcons(slider_points);
 
                 // Add styles (options)
                 if(this.options.indicator_radius != undefined){
@@ -191,22 +287,6 @@ class iSlide {
                     })
                 }
 
-                // too complex i think
-                // if(this.options.background_width != undefined){
-                //     if(this.options.position == 'top' || this.options.position == 'bottom'){ // depending on the position
-                //         slider_background.style.width = '100vw';
-                //         slider_background.style.height = this.options.background_width;
-                //     }else{
-                //         slider_background.style.width = this.options.background_width;
-                //         slider_background.style.height = '100vh';
-                //     }
-                // }else{
-                //     if(this.options.position == 'left' || this.options.position == 'right'){ // depending on the position
-                //         slider_background.style.width = '100vw';
-                //         slider_background.style.height = this.options.background_width;
-                //     }    
-                // }
-
                 if(this.options.z_index != undefined){
                     slider_background.style.zIndex = this.options.z_index;
                 }else{
@@ -217,6 +297,20 @@ class iSlide {
                     slider_background.style.boxShadow = this.options.background_shadow + 'px ' + this.options.background_shadow + 'px 10px rgba(0, 0, 0, 0.3)';
                 }else{
                     slider_background.style.boxShadow = 'none';
+                }
+
+                if(this.options.smooth_scrolling != undefined){
+                    let html = document.querySelector('html');
+                    switch(this.options.smooth_scrolling){
+                        case true:
+                            html.style.scrollBehavior = 'smooth';
+                            break;
+                        default:
+                            html.style.scrollBehavior = defaults.smooth_scrolling;
+                    }
+                }else{
+                    let html = document.querySelector('html');
+                    html.style.scrollBehavior = defaults.smooth_scrolling;
                 }
 
                 //Colors
@@ -239,24 +333,9 @@ class iSlide {
         }else{
             console.warn('iSlide options not defined');
         }
+        // Run scrolling effect function after mounting
+        this.#scrollEffect();
+        // Run scroll on click function
+        this.#scrollOnCLick();
     }
 }
-
-// function scrolling(){
-//     window.scrollTo(0, 300);
-//     console.log('done');
-// }
-
-
-
-// const stopElements = document.querySelectorAll('.iSlide');
-// stopElements.forEach((element)=>{
-//     console.log(element.getAttribute('data-islide-name')); // getting attribute
-// })
-
-// TODO 
-// - SET GOOD DEFAULTS
-// - selection range
-// - animation speed
-// - scrolling offset
-// - auto hide

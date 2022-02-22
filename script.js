@@ -5,7 +5,8 @@ const options = {
     icons_size: 30,
     position: 'left',
     z_index: 2,
-    background_shadow: 5,
+    smooth_scrolling: true,
+    scrolling_offset: 50,
     icons: {
         section1: 'air',
         section2: 'portrait',
@@ -17,3 +18,5 @@ const options = {
 let obiekt = new iSlide('.demoMenuObject', options);
 
 obiekt.mount();
+
+// No need to put "iSlide" class on elements - just the data-islide-name

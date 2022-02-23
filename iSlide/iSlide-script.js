@@ -26,9 +26,6 @@ const defaults = {
 // - auto_hide (hide automaticly after scroll or clicking outside)
 // - animation_speed
 
-// SOON:
-// - Tooltips after hover
-
 const defaultDivider = [3, 20] //width, height
 
 class iSlide {
@@ -36,6 +33,7 @@ class iSlide {
         this.objectClass = objectClass;
         this.options = options;
         this.icons_sliders = []; // icons and stop objects matched together - global variable
+        this.background = null;
         this.#scrollOnRefresh();
     }
 
@@ -138,6 +136,7 @@ class iSlide {
                 // Create background
                 let slider_background = document.createElement('div'); // Create element
                 slider_background.classList.add('iSlide-slider-background'); // Add class
+                slider_background.style.transition = '0.2s ease'; // Add animation
                 // Create bar
                 let slider_bar = document.createElement('div'); // Create element
                 slider_bar.classList.add('iSlide-slider-bar'); // Add class
@@ -174,6 +173,7 @@ class iSlide {
                 // Add everything at the top of the objectClass from constructor
                 let menuMountObject = document.querySelector(this.objectClass);
                 menuMountObject.appendChild(slider_background);
+                this.background = slider_background; // add background to the global variable
 
                 // Set global variable - match icons with stopPoints
                 this.icons_sliders = this.#matchIcons(slider_points);
@@ -313,7 +313,7 @@ class iSlide {
                     html.style.scrollBehavior = defaults.smooth_scrolling;
                 }
 
-                //Colors
+                // Colors
                 if(this.options.bar_color != undefined){
                     slider_bar.style.backgroundColor = this.options.bar_color;
                 }else{
@@ -337,5 +337,116 @@ class iSlide {
         this.#scrollEffect();
         // Run scroll on click function
         this.#scrollOnCLick();
+        // Move a page a bit to refresh listeners
+        this.#scrollOnRefresh();
     }
+
+    delete(){ // delete method to remove object
+        let islideObject = document.querySelector(this.objectClass);
+        islideObject.innerHTML = '';
+        this.delete;
+    }
+
+    update(){ // update islide
+        let islideObject = document.querySelector(this.objectClass);
+        islideObject.innerHTML = ''; // clear islide container
+        this.mount();
+    }
+
+    sliding(objectClass, hide){ // enable sliding
+        let button = document.querySelector(objectClass);
+        let slideStatus = true;
+        if(this.options.position != undefined){
+            switch(this.options.position){
+                case 'left':
+                    button.addEventListener('click', (e)=>{
+                        if(slideStatus == true){
+                            this.background.style.transform = `translateX(${-this.background.offsetWidth}px)`;
+                        }else{
+                            this.background.style.transform = `translateX(0px)`;
+                        }
+                        slideStatus = -slideStatus;
+                    })
+                    break;
+                case 'right':
+                    button.addEventListener('click', (e)=>{
+                        if(slideStatus == true){
+                            this.background.style.transform = `translateX(${this.background.offsetWidth}px)`;
+                        }else{
+                            this.background.style.transform = `translateX(0px)`;
+                        }
+                        slideStatus = -slideStatus;
+                    })
+                    break;
+                case 'top':
+                    button.addEventListener('click', (e)=>{
+                        if(slideStatus == true){
+                            this.background.style.transform = `translateY(${-this.background.offsetHeight}px)`;
+                        }else{
+                            this.background.style.transform = `translateY(0px)`;
+                        }
+                        slideStatus = -slideStatus;
+                    })
+                    break;
+                case 'bottom':
+                    button.addEventListener('click', (e)=>{
+                        if(slideStatus == true){
+                            this.background.style.transform = `translateY(${this.background.offsetHeight}px)`;
+                        }else{
+                            this.background.style.transform = `translateY(0px)`;
+                        }
+                        slideStatus = -slideStatus;
+                    })
+                    break;
+                default: // default position 'left'
+                    button.addEventListener('click', (e)=>{
+                        if(slideStatus == true){
+                            this.background.style.transform = `translateX(${-this.background.offsetWidth}px)`;
+                        }else{
+                            this.background.style.transform = `translateX(0px)`;
+                        }
+                        slideStatus = -slideStatus;
+                    })
+            }
+        }else{ // default position 'left'
+            let slideStatus = true;
+            button.addEventListener('click', (e)=>{
+                if(slideStatus == true){
+                    this.background.style.transform = `translateX(${-this.background.offsetWidth}px)`;
+                }else{
+                    this.background.style.transform = `translateX(0px)`;
+                }
+                slideStatus = -slideStatus;
+            })
+        }
+
+        if(hide != undefined){ // load hided option
+            if(hide){ // hide on load activated if there is 'hide' option and it's true
+                button.click();
+                slideStatus = -slideStatus;
+            }
+        }
+    }
+
+    // Event listeners
+    click(icon, functionToActivate){ // click on the icon listener
+        this.icons_sliders.forEach((iconSlider)=>{ // list all icons-sliders to find the right one
+            if(iconSlider[0].getAttribute('data-islide-name') == icon){
+                iconSlider[1].addEventListener('click', (e)=>{ // add event listener
+                    functionToActivate(e);
+                })
+            }
+        })
+    }
+
+    hover(icon, functionToActivate){ // hover over the icon listener
+        this.icons_sliders.forEach((iconSlider)=>{ // list all icons-sliders to find the right one
+            if(iconSlider[0].getAttribute('data-islide-name') == icon){
+                iconSlider[1].addEventListener('mouseover', (e)=>{ // add event listener
+                    functionToActivate(e);
+                })
+            }
+        })
+    }
+
 }

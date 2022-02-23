@@ -3,9 +3,9 @@ var options = {
     bar_radius: 40,
     dividers: 'dot',
     icons_size: 30,
-
     z_index: 2,
     smooth_scrolling: true,
+    auto_hide: true,
     scrolling_offset: 50,
     background_color: '#ff99e6',
     icons: {
@@ -21,6 +21,7 @@ let obiekt = new iSlide('.demoMenuObject', options);
 obiekt.mount();
 
 obiekt.sliding('.clickButton', false);
+
 
 // obiekt.hover('section1', (e)=>{
 //     console.log('clicked worked!');

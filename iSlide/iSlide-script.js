@@ -5,9 +5,8 @@ const defaults = {
     dividers: 'vertical', //DONE
     icons_size: 20, //DONE
     background_width: 'auto', //DONE
-    auto_hide: false, // ====================================================
     z_index: 3, //DONE
-    aniamtion_speed: 0.2, //s ===============================================
+    animation_speed: 0.2, //DONE
     smooth_scrolling: 'auto', //DONE
     scrolling_offset: 0, //DONE
     selection_range: [-10, 400], //DONE
@@ -22,9 +21,6 @@ const defaults = {
 }
 
 // TODO:
-// - hiding button (if there is a button (class or data attribute) then apply hiding (depending on the position))
-// - auto_hide (hide automaticly after scroll or clicking outside)
-// - animation_speed
 
 const defaultDivider = [3, 20] //width, height
 
@@ -34,6 +30,9 @@ class iSlide {
         this.options = options;
         this.icons_sliders = []; // icons and stop objects matched together - global variable
         this.background = null;
+        this.position = null;
+        this.slideStatus = true;
+        this.slideButtonClass = null;
         this.#scrollOnRefresh();
     }
 
@@ -130,13 +129,44 @@ class iSlide {
         })
     }
 
+    #hideBar(position){
+        switch(position){
+            case 'left':
+                this.background.style.transform = `translateX(${-this.background.offsetWidth}px)`;
+                break;
+            case 'right':
+                this.background.style.transform = `translateX(${this.background.offsetWidth}px)`;
+                break;
+            case 'top':
+                this.background.style.transform = `translateY(${-this.background.offsetHeight}px)`;
+                break;
+            case 'bottom':
+                this.background.style.transform = `translateY(${this.background.offsetHeight}px)`;
+                break;
+        }
+        this.slideStatus = false;
+    }
+
+    #showBar(position){
+        if(position == 'left' || position == 'right'){
+            this.background.style.transform = `translateX(0px)`;
+        }else{
+            this.background.style.transform = `translateY(0px)`;
+        }
+        this.slideStatus = true;
+    }
+
     mount(){ // main initialization function
         if(this.options != undefined){ // Check if options exsist
             if(this.options.icons != undefined){ // Check if icons exsist (options, icons - two core elements)
                 // Create background
                 let slider_background = document.createElement('div'); // Create element
                 slider_background.classList.add('iSlide-slider-background'); // Add class
-                slider_background.style.transition = '0.2s ease'; // Add animation
+                if(this.options.animation_speed != undefined){ // Add animation with animation speed
+                    slider_background.style.transition = `${this.options.animation_speed}s ease`;
+                }else{
+                    slider_background.style.transition = `${defaults.animation_speed}s ease`;
+                }
                 // Create bar
                 let slider_bar = document.createElement('div'); // Create element
                 slider_bar.classList.add('iSlide-slider-bar'); // Add class
@@ -205,6 +235,7 @@ class iSlide {
                             slider_background.style.height = '100vh';
                             slider_background.style.width = 'auto';
                             slider_bar.style.flexDirection = 'column';
+                            this.position = 'left'; // Set position variable
                             break;
                         case 'right':
                             slider_background.style.top = 0;
@@ -212,6 +243,7 @@ class iSlide {
                             slider_background.style.height = '100vh';
                             slider_background.style.width = 'auto';
                             slider_bar.style.flexDirection = 'column';
+                            this.position = 'right'; // Set position variable
                             break;
                         case 'top':
                             slider_background.style.top = 0;
@@ -219,6 +251,7 @@ class iSlide {
                             slider_background.style.height = 'auto';
                             slider_background.style.width = '100vw';
                             slider_bar.style.flexDirection = 'row';
+                            this.position = 'top'; // Set position variable
                             break;
                         case 'bottom':
                             slider_background.style.bottom = 0;
@@ -226,6 +259,7 @@ class iSlide {
                             slider_background.style.height = 'auto';
                             slider_background.style.width = '100vw';
                             slider_bar.style.flexDirection = 'row';
+                            this.position = 'bottom'; // Set position variable
                             break;
                         default: // default 'left'
                             slider_background.style.top = 0;
@@ -241,6 +275,7 @@ class iSlide {
                     slider_background.style.height = '100vh';
                     slider_background.style.width = 'auto';
                     slider_bar.style.flexDirection = 'column';
+                    this.position = 'left'; // Set position variable
                 }
 
                 if(this.options.dividers != undefined){
@@ -355,76 +390,79 @@ class iSlide {
 
     sliding(objectClass, hide){ // enable sliding
         let button = document.querySelector(objectClass);
-        let slideStatus = true;
         if(this.options.position != undefined){
             switch(this.options.position){
                 case 'left':
                     button.addEventListener('click', (e)=>{
-                        if(slideStatus == true){
-                            this.background.style.transform = `translateX(${-this.background.offsetWidth}px)`;
+                        if(this.slideStatus == true){
+                            this.#hideBar('left');
                         }else{
-                            this.background.style.transform = `translateX(0px)`;
+                            this.#showBar('left');
                         }
-                        slideStatus = -slideStatus;
                     })
                     break;
                 case 'right':
                     button.addEventListener('click', (e)=>{
-                        if(slideStatus == true){
-                            this.background.style.transform = `translateX(${this.background.offsetWidth}px)`;
+                        if(this.slideStatus == true){
+                            this.#hideBar('right');
                         }else{
-                            this.background.style.transform = `translateX(0px)`;
+                            this.#showBar('right');
                         }
-                        slideStatus = -slideStatus;
                     })
                     break;
                 case 'top':
                     button.addEventListener('click', (e)=>{
-                        if(slideStatus == true){
-                            this.background.style.transform = `translateY(${-this.background.offsetHeight}px)`;
+                        if(this.slideStatus == true){
+                            this.#hideBar('top');
                         }else{
-                            this.background.style.transform = `translateY(0px)`;
+                            this.#showBar('top');
                         }
-                        slideStatus = -slideStatus;
                     })
                     break;
                 case 'bottom':
                     button.addEventListener('click', (e)=>{
-                        if(slideStatus == true){
-                            this.background.style.transform = `translateY(${this.background.offsetHeight}px)`;
+                        if(this.slideStatus == true){
+                            this.#hideBar('bottom');
                         }else{
-                            this.background.style.transform = `translateY(0px)`;
+                            this.#showBar('bottom');
                         }
-                        slideStatus = -slideStatus;
                     })
                     break;
                 default: // default position 'left'
                     button.addEventListener('click', (e)=>{
-                        if(slideStatus == true){
-                            this.background.style.transform = `translateX(${-this.background.offsetWidth}px)`;
+                        if(this.slideStatus == true){
+                            this.#hideBar('left');
                         }else{
-                            this.background.style.transform = `translateX(0px)`;
+                            this.#showBar('left');
                         }
-                        slideStatus = -slideStatus;
                     })
             }
         }else{ // default position 'left'
-            let slideStatus = true;
             button.addEventListener('click', (e)=>{
-                if(slideStatus == true){
-                    this.background.style.transform = `translateX(${-this.background.offsetWidth}px)`;
+                if(this.slideStatus == true){
+                    this.#hideBar('left');
                 }else{
-                    this.background.style.transform = `translateX(0px)`;
+                    this.#showBar('left');
                 }
-                slideStatus = -slideStatus;
             })
         }
 
         if(hide != undefined){ // load hided option
             if(hide){ // hide on load activated if there is 'hide' option and it's true
-                button.click();
-                slideStatus = -slideStatus;
+                this.#hideBar(this.position);
             }
+        }
+
+        //Auto hide
+        if(this.options.auto_hide != undefined){// Auto hide event listener
+            let html = document.querySelector('html');
+            html.addEventListener('click', (e)=>{
+                let clickObject = e.target.classList;
+                let newName = objectClass.replace('.', '');
+                if(clickObject.contains('iSlide-slider-background') == false && clickObject.contains(newName) == false){ // check if clicked element is not our background or if element is not a button
+                    this.#hideBar(this.position); // close bar
+                }
+            })
         }
     }
 

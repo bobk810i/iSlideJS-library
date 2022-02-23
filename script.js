@@ -5,7 +5,7 @@ var options = {
     icons_size: 30,
     z_index: 2,
     smooth_scrolling: true,
-    auto_hide: true,
+    auto_hide: false,
     scrolling_offset: 50,
     background_color: '#ff99e6',
     icons: {
@@ -31,9 +31,5 @@ obiekt.sliding('.clickButton', false);
 // No need to put "iSlide" class on elements - just the data-islide-name
 
 function changeSettings(){
-    options.dividers = 'vertical';
-    options.icons_size = 40;
-    options.position = 'bottom';
-    obiekt.update();
-    obiekt.sliding('.clickButton', false);
+    
 }

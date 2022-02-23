@@ -453,14 +453,16 @@ class iSlide {
 
         //Auto hide
         if(this.options.auto_hide != undefined){// Auto hide event listener
-            let html = document.querySelector('html');
-            html.addEventListener('click', (e)=>{
-                let clickObject = e.target.classList;
-                let newName = objectClass.replace('.', '');
-                if(clickObject.contains('iSlide-slider-background') == false && clickObject.contains(newName) == false){ // check if clicked element is not our background or if element is not a button
-                    this.#hideBar(this.position); // close bar
-                }
-            })
+            if(this.options.auto_hide == true){ // option has to be defined and true
+                let html = document.querySelector('html');
+                html.addEventListener('click', (e)=>{
+                    let clickObject = e.target.classList;
+                    let newName = objectClass.replace('.', '');
+                    if(clickObject.contains('iSlide-slider-background') == false && clickObject.contains(newName) == false){ // check if clicked element is not our background or if element is not a button
+                        this.#hideBar(this.position); // close bar
+                    }
+                })
+            }
         }
     }
 

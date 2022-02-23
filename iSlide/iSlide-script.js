@@ -20,8 +20,6 @@ const defaults = {
     dividers_color: '#000000', //DONE
 }
 
-// TODO:
-
 const defaultDivider = [3, 20] //width, height
 
 class iSlide {

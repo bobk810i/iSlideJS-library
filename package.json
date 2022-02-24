@@ -1,0 +1,22 @@
+{
+  "name": "islide-library",
+  "version": "1.1.0",
+  "description": "JavaScript ES6 sliding menu library",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bobk810i/iSlideJS-library.git"
+  },
+  "author": "Jakub Kołodyński",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/bobk810i/iSlideJS-library/issues"
+  },
+  "homepage": "https://github.com/bobk810i/iSlideJS-library#readme"
+}

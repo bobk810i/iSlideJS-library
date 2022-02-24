@@ -30,8 +30,6 @@ const menu = new iSlide("#iSlide", options);
 menu.mount();
 ```
 
-Enjoy!
-
 ## Documentation
 
 **Documentation website** - comming soon...

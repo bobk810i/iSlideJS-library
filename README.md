@@ -10,21 +10,19 @@ Install the package from NPM...
 npm i @bobk810i/islide-library
 ```
 
-...or download **iSlide** folder from this repository...
-
-... or include files from CDN - _soon_.
-
-Include `js` and `css` file inside your HTML.
-
 ```html
-<!-- Head section -->
 <link
   rel="stylesheet"
   href="node_modules/@bobk810i/islide-library/iSlide/iSlide-style.css"
 />
-
-<!-- Script section -->
 <script src="node_modules/@bobk810i/islide-library/iSlide/iSlide-script.js"></script>
+```
+
+... or include files from CDN
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@bobk810i/islide-library@1.1.0/iSlide/iSlide-style.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@bobk810i/islide-library@1.1.0/iSlide/iSlide-script.min.js">
 ```
 
 Create a `div` at the beginning of the `body` section with a specyfied _class_ or _id_:

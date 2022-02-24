@@ -4,13 +4,15 @@
 
 ## Getting started
 
-Install the package from npm:
+Install the package from NPM...
 
 ```npm
 npm i @bobk810i/islide-library
 ```
 
-or download **iSlide** folder from this repository.
+...or download **iSlide** folder from this repository...
+
+... or include files from CDN - _soon_.
 
 Include `js` and `css` file inside your HTML.
 
@@ -119,13 +121,18 @@ Every `<data-islide-name>` point must have the icon!
 - `.mount()` - initialization of the iSlide sliding menu
 - `.delete()` - delete iSlide sliding menu
 - `.update()` - update iSlide sliding menu after changing options
-- `.sliding(<buttonClass>, <hideOnStart>)` - enable sliding mode (<buttonClass> - trigger button, <hideOnStart> - (true) menu hidden on page load)
+- `.sliding(<buttonClass>, <hideOnStart>)` - enable sliding mode (< buttonClass > - trigger button, < hideOnStart > - (true) menu hidden on page load)
 
 ### Event listeners:
 
 - `.click(<data-islide-name>, function)` - run function after clicking on choosen icon
 - `.hover(<data-islide-name>, function)` - run function after hovering over choosen icon
 
-## Bug fix
+## Bug fix / Improvements
+
+If you will find some bugs to fix, improvements to make or new features to add - feel free to write them in [Issues](https://github.com/bobk810i/iSlideJS-library/issues) tab.
 
 ## License
+
+**GPL-3.0 License**
+© Copyright 2022-present Jakub Kołodyński - Wszystkie prawa zastrzeżone/All Rights reserved

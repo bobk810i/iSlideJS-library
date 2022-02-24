@@ -4,7 +4,6 @@ const defaults = {
     position: 'left', //DONE
     dividers: 'vertical', //DONE
     icons_size: 20, //DONE
-    background_width: 'auto', //DONE
     z_index: 3, //DONE
     animation_speed: 0.2, //DONE
     smooth_scrolling: 'auto', //DONE

@@ -4,14 +4,59 @@
 
 ## Getting started
 
+Download **iSlide** folder from this repository.
+Include `js` and `css` file inside your HTML.
+
+```html
+<!-- Head section -->
+<link rel="stylesheet" href="/iSlide/iSlide-style.css" />
+
+<!-- Script section -->
+<script src="/iSlide/iSlide-script.js"></script>
+```
+
+Create a `div` inside `body` section with a specyfied _class_ or _id_:
+
+```html
+<div id="iSlide"></div>
+```
+
+Specify the iSlide options - _more info below_
+
+Initialize and mount iSlide object:
+
+```js
+const menu = new iSlide("#iSlide", options);
+menu.mount();
+```
+
+Enjoy!
+
 ## Documentation
 
 **Documentation website** - comming soon...
 
-- ### Options
+### Options:
 
 Options object example:
 
-- ### Icons
+```js
+const options = {
+    bar_color: '#ff99ff',
+    smooth_scroll: true,
+    icons_size: 30,
+    ...
+}
+```
 
-- ### Methods
+Avalible options:
+
+- `option1: [string]` - demo
+
+### Icons:
+
+### Methods:
+
+## Bug fix
+
+## License

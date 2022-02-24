@@ -21,6 +21,7 @@ const defaults = {
 }
 
 const defaultDivider = [3, 20] //width, height
+const googleFontsLink = 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 class iSlide {
     constructor(objectClass, options){
@@ -157,6 +158,14 @@ class iSlide {
     mount(){ // main initialization function
         if(this.options != undefined){ // Check if options exsist
             if(this.options.icons != undefined){ // Check if icons exsist (options, icons - two core elements)
+                // Auto link material icons library
+                let head = document.querySelector('head');
+                var link  = document.createElement('link');
+                link.rel  = 'stylesheet';
+                link.type = 'text/css';
+                link.href = googleFontsLink;
+                link.media = 'all';
+                head.appendChild(link);
                 // Create background
                 let slider_background = document.createElement('div'); // Create element
                 slider_background.classList.add('iSlide-slider-background'); // Add class

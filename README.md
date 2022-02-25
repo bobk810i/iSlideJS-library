@@ -81,7 +81,9 @@ Sizing:
 - `indicator_radius: [number]` - icon indicators border radius [default: 20]
 - `bar_radius: [number]` - icons container (bar) border radius [default: 20]
 - `icons_size: [number]` - icons size [default: 20]
-  Colors:
+
+Colors:
+
 - `indicators_color: [string]` - indicators basic color [default: 'transparent']
 - `indicators_active_color: [string]` - indicators active color [default: '#000000']
 - `bar_color: [string]` - bar color [default: 'transparent']
@@ -89,7 +91,9 @@ Sizing:
 - `icons_active_color: [string]` - icons basic color [default: '#ffffff']
 - `background_color: [string]` - menu background color [default: 'transparent']
 - `dividers_color: [string]` - indicator dividers color [default: '#000000']
-  Other:
+
+Other:
+
 - `position: [string]` - menu position (left,right,top,bottom) [default: 'left']
 - `dividers: [string]` - shape of the dividers (horizontal,vertical,dot) [default: 'vertical']
 - `z_index: [number]` - z-index of the menu [default: 3]

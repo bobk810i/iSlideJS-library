@@ -25,7 +25,7 @@ npm i @bobk810i/islide-library
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/@bobk810i/islide-library@1.1.5/iSlide/iSlide-style.css"
 />
-<script src="https://cdn.jsdelivr.net/npm/@bobk810i/islide-library@1.1.4/iSlide/iSlide-script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@bobk810i/islide-library@1.1.5/iSlide/iSlide-script.js"></script>
 ```
 
 Create a `div` at the beginning of the `body` section with a specyfied _class_ or _id_:

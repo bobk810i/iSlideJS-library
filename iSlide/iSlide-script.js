@@ -496,5 +496,3 @@ class iSlide {
     }
 
 }
-
-module.exports = iSlide;

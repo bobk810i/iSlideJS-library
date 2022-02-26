@@ -21,8 +21,11 @@ npm i @bobk810i/islide-library
 ... or include files from CDN
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@bobk810i/islide-library@1.1.0/iSlide/iSlide-style.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/@bobk810i/islide-library@1.1.0/iSlide/iSlide-script.min.js">
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@bobk810i/islide-library@1.1.5/iSlide/iSlide-style.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/@bobk810i/islide-library@1.1.4/iSlide/iSlide-script.js"></script>
 ```
 
 Create a `div` at the beginning of the `body` section with a specyfied _class_ or _id_:

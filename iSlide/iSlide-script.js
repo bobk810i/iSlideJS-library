@@ -80,7 +80,7 @@ class iSlide {
                     }else{
                         if(offset >= defaults.selection_range[0] && offset <= defaults.selection_range[1]){ // set highlight colors
                             // Set icon and indicator active
-                            if(this.icons_active_color != undefined){ // check for the options icons_active_color
+                            if(this.options.icons_active_color != undefined){ // check for the options icons_active_color
                                 icon.style.color = this.options.icons_active_color;
                             }else{
                                 icon.style.color = defaults.icons_active_color;

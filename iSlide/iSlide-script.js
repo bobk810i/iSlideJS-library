@@ -19,7 +19,7 @@ const defaults = {
     dividers_color: '#000000', //DONE
 }
 
-const defaultDivider = [3, 20] //width, height
+const defaultDivider = [6, 20] //width, height
 const googleFontsLink = 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 class iSlide {
@@ -61,6 +61,7 @@ class iSlide {
 
     #scrollOnRefresh(){ // to move page and set current selection
         window.scrollBy(0, 1);
+        window.scrollBy(0, -1);
     }
 
     #scrollEffect(){ // icons selecting when on the screen

@@ -1,6 +1,6 @@
 {
   "name": "@bobk810i/islide-library",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "JavaScript ES6 sliding menu library",
   "main": "iSlide/iSlide-script.js",
   "directories": {
